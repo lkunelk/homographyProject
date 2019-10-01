@@ -29,15 +29,9 @@ def dlt_homography(I1pts, I2pts):
         A = np.vstack((A, row1))
         A = np.vstack((A, row2))
     A = np.delete(A, 0, 0)
-        
-    # Solve for Homography matrix
     
+    # Solve for Homography matrix
     H = null_space(A)
     H = H.reshape((3,3))
-
+    
     return H, A
-
-if __name__ == '__notmain__':
-    i1pts = np.array([[1,2,3,4],[1,2,3,4]])
-    i2pts = np.array([[2,3,4,5],[2,3,4,5]])
-    H,A = dlt_homography(i1pts, i2pts)
