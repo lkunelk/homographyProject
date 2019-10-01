@@ -20,10 +20,14 @@ def dlt_homography(I1pts, I2pts):
     A  - 8x9 np.array of DLT matrix used to determine homography.
     """
     #--- FILL ME IN ---
-    
+    H, A = 0, 0
+    print(I1pts) 
     #------------------
 
     return H, A
 
 if __name__ == '__main__':
-    print('hello')
+    i1pts = np.array([[1,1],[2,2],[3,3],[4,4]])
+    i2pts = np.array([[1,1],[2,2],[3,3],[4,4]])
+
+    dlt_homography(i1pts, i2pts)
