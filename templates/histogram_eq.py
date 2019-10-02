@@ -18,7 +18,7 @@ def histogram_eq(I):
     """
     #--- FILL ME IN ---
     
-    k = 2**8
+    k = 10
     height, width = I.shape
     
     # Verify I is grayscale.
@@ -38,11 +38,11 @@ def histogram_eq(I):
     J = np.zeros(I.shape).astype(np.uint8)
     for row in range(height):
         for col in range(width):
-            J[row, col] = round((h[I[row, col]] - h[0]) * (k-1) / (width * height - h[0]))
+            J[row, col] = round((h[I[row, col]]) * (k-1) / (width * height))
     
     return J
 
 if __name__ == '__main__':
-    A = np.array([[1,2],[3,4]]).astype(np.uint8)
+    A = np.array([[6,6],[9,9]]).astype(np.uint8)
     J = histogram_eq(A)
     print(J)
