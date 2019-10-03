@@ -18,7 +18,7 @@ def histogram_eq(I):
     """
     #--- FILL ME IN ---
     
-    k = 10
+    k = 2**8
     height, width = I.shape
     
     # Verify I is grayscale.
