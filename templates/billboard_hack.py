@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 # Billboard hack script file.
 import numpy as np
 from matplotlib.path import Path
@@ -34,19 +36,32 @@ def billboard_hack():
     #--- FILL ME IN ---
 
     # Let's do the histogram equalization first.
-
+    Ist = histogram_eq(Ist)
+    
     # Compute the perspective homography we need...
-
+    H, A = dlt_homography(Ist_pts, Iyd_pts)
+    
     # Main 'for' loop to do the warp and insertion - 
     # this could be vectorized to be faster if needed!
+    h, w = Ist.shape
+    
+    for y in range(h):
+        for x in range(w):
+            p = H.dot(np.array([x, y, 1]))
+            u, v, _ = p / p[2]
+            Iyd[int(v), int(u)] = np.array([Ist[y,x], Ist[y,x], Ist[y,x]])
 
     # You may wish to make use of the contains_points() method
     # available in the matplotlib.path.Path class!
 
     #------------------
 
-    # plt.imshow(Ihack)
-    # plt.show()
+    plt.imshow(Iyd)
+    plt.show()
     # imwrite(Ihack, 'billboard_hacked.png');
+    Ihack = Iyd
 
     return Ihack
+
+if __name__ == '__main__':
+    billboard_hack()
