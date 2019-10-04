@@ -61,7 +61,4 @@ def billboard_hack():
     return Iyd
 
 if __name__ == '__main__':
-    #p = Path([[-1,0],[0,1],[1,0]])
-    #t = p.contains_points([[0, .1]])
-    #print(t)
     billboard_hack()
