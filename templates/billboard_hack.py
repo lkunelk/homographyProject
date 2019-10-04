@@ -33,35 +33,35 @@ def billboard_hack():
     Ihack = np.asarray(Iyd)
     Ist = np.asarray(Ist)
 
-    #--- FILL ME IN ---
-
-    # Let's do the histogram equalization first.
+    # Apply Histogram equalization
     Ist = histogram_eq(Ist)
     
-    # Compute the perspective homography we need...
-    H, A = dlt_homography(Ist_pts, Iyd_pts)
+    # Compute homography
+    H, A = dlt_homography(Iyd_pts, Ist_pts)
     
-    # Main 'for' loop to do the warp and insertion - 
-    # this could be vectorized to be faster if needed!
-    h, w = Ist.shape
+    # Define billboard polygon
+    vertices = np.array([[x, y] for x, y in zip(Iyd_pts[0], Iyd_pts[1])])
+    billboard = Path(vertices)
     
+    # Insert Soldiers Tower picture into Young-Dundas picture
+    h, w, _ = Iyd.shape
     for y in range(h):
         for x in range(w):
-            p = H.dot(np.array([x, y, 1]))
-            u, v, _ = p / p[2]
-            Iyd[int(v), int(u)] = np.array([Ist[y,x], Ist[y,x], Ist[y,x]])
+            if billboard.contains_points([[x,y]]):
+                p = H.dot(np.array([x, y, 1]))
+                xp, yp, _ = p / p[2]
+                val = bilinear_interp(Ist, np.array([[xp], [yp]]))
+                Iyd[y, x] = np.array([val, val, val])
+    
+    # Uncomment to see picture
+    #plt.imshow(Ihack)
+    #plt.show()
+    #imwrite('billboard_hacked_2.jpg', Iyd);
 
-    # You may wish to make use of the contains_points() method
-    # available in the matplotlib.path.Path class!
-
-    #------------------
-
-    plt.imshow(Iyd)
-    plt.show()
-    # imwrite(Ihack, 'billboard_hacked.png');
-    Ihack = Iyd
-
-    return Ihack
+    return Iyd
 
 if __name__ == '__main__':
+    #p = Path([[-1,0],[0,1],[1,0]])
+    #t = p.contains_points([[0, .1]])
+    #print(t)
     billboard_hack()
